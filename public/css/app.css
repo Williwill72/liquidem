@@ -1,0 +1,44 @@
+body
+{
+    background-color: #5eb5e0;
+    font-family: "Open Sans", "sans-serif";
+}
+
+
+
+header
+{
+    background-color: #529ec4;
+}
+
+header>div>div:hover
+{
+    background-color: #488daf;
+}
+
+header>div>div
+{
+    text-align: center;
+    align-self: center;
+}
+
+a
+{
+    color: white;
+}
+
+a:hover
+{
+    text-decoration: none;
+}
+
+#title
+{
+    font-size: 24px;
+}
+
+#logo
+{
+    height: 50px;
+    width: 100px;
+}
