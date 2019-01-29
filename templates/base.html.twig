@@ -9,20 +9,23 @@
     </head>
     <body>
         <div class="container">
-            <header class="container">
-                <div class="row">
-                    <div class="col-2">
+            <header>
+                <nav class="nav">
+                    <div class="nav-link">
                         <a href="{{ path('home') }}">
                             <img alt="logo du site" src="{{ asset('img/demoliqu.jpg') }}" id="logo">
                         </a>
                     </div>
-                    <div class="col-2">
-                        <a href="{{ path('home') }}" id="title">DemoLiqu</a>
+                    <div class="nav-link" id="title">
+                        <a href="{{ path('home') }}">DemoLiqu</a>
                     </div>
-                    <div class="col-2">
+                    <div class="nav-link">
                         <a href="{{ path('home') }}">Accueil</a>
                     </div>
-                </div>
+                    <div class="nav-link">
+                        <a href="{{ path('question_list') }}">Liste</a>
+                    </div>
+                </nav>
             </header>
 
             <main>
