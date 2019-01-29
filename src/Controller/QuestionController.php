@@ -3,13 +3,80 @@
 namespace App\Controller;
 
 use App\Entity\Question;
+use http\Env\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 
 class QuestionController extends AbstractController
 {
     /**
-     * @Route("/questions", name="question_list")
+     * @Route(
+     *     "/questions/ajouter",
+     *     name="question_create",
+     *     methods={"GET", "POST"}
+     * )
+     */
+
+
+    public function create()
+    {
+        $question = new Question();
+        $question->setTitle('blabla');
+        $question -> setDescription('lorem etc');
+        $question -> setStatus('debating');
+        $question -> setSupports(666);
+        $question -> setCreationDate(new \DateTime());
+
+        //récupére l'entity manager de Doctrine
+        $em = $this->getDoctrine()->getManager();
+        //on demande à Doctrine de sauvegarder notre instance
+        $em->persist($question);
+        //on exécute les requêtes
+        $em->flush();
+
+        //Pour supprimer quelquechose de ma base de donnée
+        //$em->remove($question);
+        //$em->flush();
+
+        return $this->render('question/create.html.twig',
+            );
+    }
+
+    /**
+     * @Route(
+     *     "/questions/{id}",
+     *     name="question_detail",
+     *     requirements={"id": "\d+"},
+     *     methods={"GET","POST"}
+     *     )
+     */
+    public function details($id)
+    {
+        $questionRepository = $this->getDoctrine()->getRepository(Question::class);
+
+        //Compte le nombre d'élément:
+        //$question = $questionRepository->count();
+
+        //$question = $questionRepository->findOneBy(["$id" => $id]);
+        //$question = $questionRepository->findOneById($id);
+        $question = $questionRepository->find($id);
+
+        if(!$question){
+            throw $this->createNotFoundException("Cette question n'existe pas!");
+        }
+
+        return $this->render('question/details.html.twig',[
+            'question' => $question
+            ]);
+
+    }
+
+    /**
+     * @Route(
+     *     "/questions",
+     *      name="question_list",
+     *     methods={"GET"}
+     *     )
      */
     public function list()
     {
