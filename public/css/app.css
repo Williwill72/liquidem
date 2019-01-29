@@ -1,11 +1,21 @@
 body
 {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
     background-color: #5eb5e0;
     font-family: "Open Sans", "sans-serif";
 }
 
+footer
+{
+    margin: 10px;
+    background-color: #529ec4;
+}
+
 header
 {
+    margin: 10px;
     background-color: #529ec4;
 }
 
@@ -21,6 +31,12 @@ header>nav>div
     height: 70px;
 }
 
+header>nav>div.nav-header
+{
+    width: 100px;
+    text-align: center;
+}
+
 a
 {
     color: white;
@@ -29,6 +45,7 @@ a
 a:hover
 {
     text-decoration: none;
+    color: white;
 }
 
 .nav-header>a

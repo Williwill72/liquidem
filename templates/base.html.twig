@@ -8,39 +8,47 @@
         <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     </head>
     <body>
+        <header>
+            <nav class="nav">
+                <div class="nav-link">
+                    <a href="{{ path('home') }}">
+                        <img alt="logo du site" src="{{ asset('img/demoliqu.jpg') }}" id="logo">
+                    </a>
+                </div>
+                <div class="nav-link">
+                    <a href="{{ path('home') }}" id="title">DemoLiqu</a>
+                </div>
+                <div class="nav-link nav-header">
+                    <a href="{{ path('home') }}">Accueil</a>
+                </div>
+                <div class="nav-link nav-header">
+                    <a href="{{ path('question_list') }}">Liste</a>
+                </div>
+            </nav>
+        </header>
+
         <div class="container">
-            <header>
-                <nav class="nav">
-                    <div class="nav-link">
-                        <a href="{{ path('home') }}">
-                            <img alt="logo du site" src="{{ asset('img/demoliqu.jpg') }}" id="logo">
-                        </a>
-                    </div>
-                    <div class="nav-link">
-                        <a href="{{ path('home') }}" id="title">DemoLiqu</a>
-                    </div>
-                    <div class="nav-link nav-header">
-                        <a href="{{ path('home') }}">Accueil</a>
-                    </div>
-                    <div class="nav-link nav-header">
-                        <a href="{{ path('question_list') }}">Liste</a>
-                    </div>
-                </nav>
-            </header>
 
             <main>
+                {% for label, messages in app.flashes %}
+                    {% for message in messages %}
+                        <div class="alert alert-{{ label }}">{{ message }}</div>
+                    {% endfor %}
+                {% endfor %}
+
                 {% block content %}{% endblock %}
             </main>
 
-            <footer>
-                <nav class="nav">
-                    <a class="nav-link" href="{{ path('home') }}">Accueil</a>
-                    <a class="nav-link" href="{{ path('faq') }}">FAQ</a>
-                    <a class="nav-link" href="{{ path('cgu') }}">CGU</a>
-                    <a class="nav-link" href="{{ path('rules') }}">Fonctionnement</a>
-                </nav>
-            </footer>
         </div>
+
+        <footer>
+            <nav class="nav">
+                <a class="nav-link mx-auto" href="{{ path('home') }}">Accueil</a>
+                <a class="nav-link mx-auto" href="{{ path('faq') }}">FAQ</a>
+                <a class="nav-link mx-auto" href="{{ path('cgu') }}">CGU</a>
+                <a class="nav-link mx-auto" href="{{ path('rules') }}">Fonctionnement</a>
+            </nav>
+        </footer>
         <script src="{{ asset('js/jquery.js') }}"></script>
         <script src="{{ asset('js/bootstrap.js') }}"></script>
     </body>

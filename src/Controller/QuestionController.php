@@ -3,8 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\Question;
+use App\Form\QuestionType;
 use http\Env\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 class QuestionController extends AbstractController
@@ -18,28 +20,38 @@ class QuestionController extends AbstractController
      */
 
 
-    public function create()
+    public function create(Request $request)
     {
         $question = new Question();
-        $question->setTitle('blabla');
-        $question -> setDescription('lorem etc');
-        $question -> setStatus('debating');
-        $question -> setSupports(666);
-        $question -> setCreationDate(new \DateTime());
 
-        //récupére l'entity manager de Doctrine
-        $em = $this->getDoctrine()->getManager();
-        //on demande à Doctrine de sauvegarder notre instance
-        $em->persist($question);
-        //on exécute les requêtes
-        $em->flush();
+        $questionForm = $this->createForm(QuestionType::class, $question);
+
+        $questionForm->handleRequest($request);
+
+        if($questionForm->isSubmitted() && $questionForm->isValid()) {
+
+            //récupére l'entity manager de Doctrine
+            $em = $this->getDoctrine()->getManager();
+            //on demande à Doctrine de sauvegarder notre instance
+            $em->persist($question);
+            //on exécute les requêtes
+            $em->flush();
+
+            //Crée un message flash à afficher sur la prochaine page
+            $this->addFlash('success', 'Merci de votre participation !');
+
+            //Redirige sur la page de détails de cette question
+            return $this->redirectToRoute('question_detail', ['id' => $question->getId()]);
+
+        }
 
         //Pour supprimer quelquechose de ma base de donnée
         //$em->remove($question);
         //$em->flush();
 
-        return $this->render('question/create.html.twig',
-            );
+        return $this->render('question/create.html.twig',[
+            "questionForm" => $questionForm->createView()
+        ]);
     }
 
     /**

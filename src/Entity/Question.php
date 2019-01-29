@@ -2,13 +2,25 @@
 
 namespace App\Entity;
 
+use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
+ * @ORM\HasLifecycleCallbacks()
  * @ORM\Entity(repositoryClass="App\Repository\QuestionRepository")
  */
 class Question
 {
+    /**
+     * @ORM\PrePersist()
+     */
+    public function prePersist()
+    {
+        $this->setCreationDate(new \DateTime());
+        $this->setSupports(0);
+        $this->setStatus('debating');
+    }
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -17,11 +29,28 @@ class Question
     private $id;
 
     /**
+     *
+     * @Assert\NotBlank(message="Veuillez poser votre question !")
+     * @Assert\Length(
+     *     min="15",
+     *     max="255",
+     *     minMessage="15 caractéres minimum svp!",
+     *     maxMessage="255 caractéres maximum svp!"
+     *      )
+     *
      * @ORM\Column(type="string", length=255)
      */
     private $title;
 
     /**
+     * @Assert\NotBlank(message="Veuillez préciser votre question !")
+     * @Assert\Length(
+     *     min="30",
+     *     max="100000",
+     *     minMessage="30 caractéres minimum svp!",
+     *     maxMessage="10 000 caractéres maximum svp!"
+     *      )
+     *
      * @ORM\Column(type="text")
      */
     private $description;
