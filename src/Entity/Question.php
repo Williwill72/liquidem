@@ -61,6 +61,13 @@ class Question
      */
     private $status;
 
+    public function __construct()
+    {
+        $this->setSupports(0);
+        $this->setCreationDate(new \DateTime());
+        $this->setStatus('debating');
+    }
+
     public function getId(): ?int
     {
         return $this->id;

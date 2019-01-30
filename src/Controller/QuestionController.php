@@ -2,9 +2,10 @@
 
 namespace App\Controller;
 
+use App\Entity\Message;
 use App\Entity\Question;
+use App\Form\MessageType;
 use App\Form\QuestionType;
-use http\Env\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -18,7 +19,6 @@ class QuestionController extends AbstractController
      *     methods={"GET", "POST"}
      * )
      */
-
 
     public function create(Request $request)
     {
@@ -62,23 +62,48 @@ class QuestionController extends AbstractController
      *     methods={"GET","POST"}
      *     )
      */
-    public function details($id)
+    public function details($id, Request $request)
     {
         $questionRepository = $this->getDoctrine()->getRepository(Question::class);
-
+        $messageRepository = $this->getDoctrine()->getRepository(Message::class);
         //Compte le nombre d'élément:
         //$question = $questionRepository->count();
-
         //$question = $questionRepository->findOneBy(["$id" => $id]);
         //$question = $questionRepository->findOneById($id);
         $question = $questionRepository->find($id);
-
         if(!$question){
             throw $this->createNotFoundException("Cette question n'existe pas!");
+
+        }
+
+        $messages = $messageRepository->findAll();
+
+        $message = new Message();
+        $messageForm = $this->createForm(MessageType::class, $message);
+        $messageForm->handleRequest($request);
+
+        if($messageForm->isSubmitted() && $messageForm->isValid()) {
+
+            //récupére l'entity manager de Doctrine
+            $em = $this->getDoctrine()->getManager();
+            //on demande à Doctrine de sauvegarder notre instance
+            $em->persist($message);
+            //on exécute les requêtes
+            $em->flush();
+
+            //Crée un message flash à afficher sur la prochaine page
+            $this->addFlash('success', 'Merci de votre participation !');
+
+            //Redirige sur la page de détails de cette question
+            return $this->redirectToRoute('question_detail', [
+                'id' => $question->getId()
+                ]);
         }
 
         return $this->render('question/details.html.twig',[
-            'question' => $question
+            'question' => $question,
+            'messageForm' => $messageForm->createView(),
+            'messages' => $messages
             ]);
 
     }
