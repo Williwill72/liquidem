@@ -24,7 +24,7 @@
     {{ form_end(messageForm) }}
 
     {% for message in messages %}
-        <div class="message">
+        <div class="message bg-primary border">
             <p>envoyé par machin le {{ message.creationDate|date("d-m-Y à H:i:s") }} </p>
             <p>{{ message.content }}</p>
         </div>
