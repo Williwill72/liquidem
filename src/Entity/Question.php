@@ -11,15 +11,6 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Question
 {
-    /**
-     * @ORM\PrePersist()
-     */
-    public function prePersist()
-    {
-        $this->setCreationDate(new \DateTime());
-        $this->setSupports(0);
-        $this->setStatus('debating');
-    }
 
     /**
      * @ORM\Id()
