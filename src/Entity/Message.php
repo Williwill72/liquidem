@@ -47,6 +47,12 @@ class Message
      */
     private $creationDate;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Question", inversedBy="messages")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $question;
+
     public function __construct()
     {
         $this->setClaps(0);
@@ -103,6 +109,18 @@ class Message
     public function setCreationDate(\DateTimeInterface $creationDate): self
     {
         $this->creationDate = $creationDate;
+
+        return $this;
+    }
+
+    public function getQuestion(): ?Question
+    {
+        return $this->question;
+    }
+
+    public function setQuestion(?Question $question): self
+    {
+        $this->question = $question;
 
         return $this;
     }
