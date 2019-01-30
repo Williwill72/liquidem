@@ -71,15 +71,21 @@ class QuestionController extends AbstractController
         //$question = $questionRepository->findOneBy(["$id" => $id]);
         //$question = $questionRepository->findOneById($id);
         $question = $questionRepository->find($id);
+        $messages = $messageRepository->findBy(
+            ['isPublished' => true],
+            ['creationDate' => 'DESC']
+        );
         if(!$question){
             throw $this->createNotFoundException("Cette question n'existe pas!");
 
         }
 
-        $messages = $messageRepository->findAll();
-
+        //Créée une instance de message à associer à formulaire
         $message = new Message();
+
+        //Créé le formulaire
         $messageForm = $this->createForm(MessageType::class, $message);
+
         $messageForm->handleRequest($request);
 
         if($messageForm->isSubmitted() && $messageForm->isValid()) {
@@ -100,12 +106,12 @@ class QuestionController extends AbstractController
                 ]);
         }
 
+
         return $this->render('question/details.html.twig',[
             'question' => $question,
             'messageForm' => $messageForm->createView(),
             'messages' => $messages
             ]);
-
     }
 
     /**
