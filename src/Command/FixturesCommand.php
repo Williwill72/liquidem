@@ -45,7 +45,7 @@ class FixturesCommand extends Command
         $conn->query('TRUNCATE question_subject');
         $conn->query('SET FOREIGN_KEY_CHECKS = 1');
 
-        $subjects = ["Affaires étrangères","Affaires européennes","Agriculture,,","Ruralité","Aménagement du territoire","Économie et finance","Culture","Communication","Défense","Écologie et développement durable","Transports","Logement","Éducation","Intérieur","Outre-mer et collectivités territoriales","Immigration","Justice et Libertés","Travail","Santé","Démocratie"];
+        $subjects = ["Affaires étrangères","Affaires européennes","Agriculture","Ruralité","Aménagement du territoire","Économie et finance","Culture","Communication","Défense","Écologie et développement durable","Transports","Logement","Éducation","Intérieur","Outre-mer et collectivités territoriales","Immigration","Justice et Libertés","Travail","Santé","Démocratie"];
         $subjectsEntity = [];
 
         foreach ($subjects as $label){
