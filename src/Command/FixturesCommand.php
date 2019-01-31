@@ -31,19 +31,27 @@ class FixturesCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $io = new SymfonyStyle($input, $output);
-        $io->text("coucou");
-        $io->text("Now loading fixtures...");
 
         $faker = \Faker\Factory::create('fr_FR');
+
+        $answer = $io->ask("Truncating all tables... Sure ? [yes/no], no");
+        if($answer !== "yes"){
+            $io->text("aborttttttting");
+            die();
+        }
 
         $conn = $this->em->getConnection();
 
         $conn->query('SET FOREIGN_KEY_CHECKS = 0');
+
         $conn->query('TRUNCATE question');
         $conn->query('TRUNCATE message');
         $conn->query('TRUNCATE subject');
         $conn->query('TRUNCATE question_subject');
+
         $conn->query('SET FOREIGN_KEY_CHECKS = 1');
+
+        $io->text("Tables are now empty...");
 
         $subjects = ["Affaires étrangères","Affaires européennes","Agriculture","Ruralité","Aménagement du territoire","Économie et finance","Culture","Communication","Défense","Écologie et développement durable","Transports","Logement","Éducation","Intérieur","Outre-mer et collectivités territoriales","Immigration","Justice et Libertés","Travail","Santé","Démocratie"];
         $subjectsEntity = [];
@@ -57,7 +65,13 @@ class FixturesCommand extends Command
 
         $this->em->flush();
 
-        for($i=0;$i<100;$i++){
+        //Démarre la barre de progression avc 200 étapes
+        $io->progressStart(200);
+
+        for($i=0;$i<200;$i++){
+
+            //Fais avancer la barre de progression de 1 étape
+            $io->progressAdvance(1);
 
             $question = new Question();
             $question->setTitle($faker->name);
@@ -72,7 +86,7 @@ class FixturesCommand extends Command
                 $question->addSubject($s);
             }
 
-            for($j=0;$j<5;$j++){
+            for($j=0;$j<20;$j++){
 
                 $message = new Message();
                 $message->setContent($faker->realText(200));
@@ -86,6 +100,9 @@ class FixturesCommand extends Command
 
             $this->em->persist($question);
         }
+
+        //Termine la barre de progression
+        $io->progressFinish();
 
         $this->em->flush();
 
