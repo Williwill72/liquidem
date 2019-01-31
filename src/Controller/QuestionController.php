@@ -22,6 +22,12 @@ class QuestionController extends AbstractController
 
     public function create(Request $request)
     {
+        if(!$this->isGranted("ROLE_USER")){
+            throw $this->createAccessDeniedException("Dégage!");
+        }
+
+        $this->denyAccessUnlessGranted("ROLE_USER");
+
         $question = new Question();
 
         $questionForm = $this->createForm(QuestionType::class, $question);

@@ -2,10 +2,15 @@
 
 namespace App\Entity;
 
+use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
+ * @UniqueEntity(fields={"email"}, message="Ce compte éxiste déja!")
+ * @UniqueEntity(fields={"username"}, message="Déja utilisé, désolé!")
+ * @UniqueEntity(fields={"socialSecurityNumber"}, message="Ce compte éxiste déja!")
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  */
 class User implements UserInterface
@@ -18,6 +23,7 @@ class User implements UserInterface
     private $id;
 
     /**
+     * @Assert\NotBlank()
      * @ORM\Column(type="string", length=180, unique=true)
      */
     private $email;
@@ -34,11 +40,19 @@ class User implements UserInterface
     private $password;
 
     /**
+     * @Assert\NotBlank()
      * @ORM\Column(type="string", length=255)
      */
     private $username;
 
     /**
+     * @Assert\Length(
+     *     min="15",
+     *     max="15",
+     *     minMessage="Le numéro de sécurité sociale doit avoir 15 numéros!",
+     *     maxMessage="Le numéro de sécurité sociale doit avoir 15 numéros!"
+     * )
+     * @Assert\NotBlank()
      * @ORM\Column(type="string", length=15)
      */
     private $socialSecurityNumber;

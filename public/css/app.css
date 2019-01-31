@@ -33,8 +33,13 @@ header>nav>div
 
 header>nav>div.nav-header
 {
-    width: 100px;
+    width: 120px;
     text-align: center;
+}
+
+h1>input
+{
+    margin: 20px 20px;
 }
 
 a
@@ -64,6 +69,11 @@ a:hover
 {
     color: white;
     margin: 2px 0px;
+}
+
+#propose
+{
+    margin: 10px;
 }
 
 #title

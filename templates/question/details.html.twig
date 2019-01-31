@@ -8,9 +8,11 @@
 
     <div>{{ question.supports }} appuis</div>
 
-    <div>
-        <a href="#" class="btn btn-success float-right">Appuyer cette proposition</a>
-    </div>
+    {% if app.user != null %}
+        <div>
+            <a href="#" class="btn btn-success float-right">Appuyer cette proposition</a>
+        </div>
+    {% endif %}
 
     <div>{{ question.creationDate|date('d-m-Y H:i:s') }}</div>
 
@@ -19,12 +21,14 @@
 
     <h2>Le débat</h2>
 
-    {{ form_start(messageForm, {'attr': {'novalidate': 'novalidate'}})}}
+    {% if app.user != null %}
+        {{ form_start(messageForm, {'attr': {'novalidate': 'novalidate'}})}}
 
-    {{ form_widget(messageForm) }}
+        {{ form_widget(messageForm) }}
 
-    <button class="btn btn-success">Envoyer !</button>
-    {{ form_end(messageForm) }}
+        <button class="btn btn-success">Envoyer !</button>
+        {{ form_end(messageForm) }}
+    {% endif %}
 
     {% for message in messages %}
         <div class="message bg-primary border">

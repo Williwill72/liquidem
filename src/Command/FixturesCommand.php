@@ -5,6 +5,7 @@ namespace App\Command;
 use App\Entity\Message;
 use App\Entity\Question;
 use App\Entity\Subject;
+use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use function Sodium\add;
 use Symfony\Component\Console\Command\Command;
@@ -48,6 +49,7 @@ class FixturesCommand extends Command
         $conn->query('TRUNCATE message');
         $conn->query('TRUNCATE subject');
         $conn->query('TRUNCATE question_subject');
+        $conn->query('TRUNCATE user');
 
         $conn->query('SET FOREIGN_KEY_CHECKS = 1');
 
@@ -72,6 +74,15 @@ class FixturesCommand extends Command
 
             //Fais avancer la barre de progression de 1 étape
             $io->progressAdvance(1);
+
+            $user = new User();
+            $user->setUsername($faker->name);
+            $user->setSocialSecurityNumber($faker->numerify('###############'));
+            $user->setRoles($faker->randomElements([['admin'],['user']]));
+            $user->setEmail($faker->email);
+            $user->setPassword($faker->password());
+
+            $this->em->persist($user);
 
             $question = new Question();
             $question->setTitle($faker->name);

@@ -3,6 +3,12 @@
 {% block content %}
     <h1>Les questions à débattre</h1>
 
+    {% if app.user != null %}
+        <div>
+            <a href="{{ path('question_create') }}" class="btn btn-success float-right" id="propose">Proposer</a>
+        </div>
+    {% endif %}
+
     <table class="table table-striped">
         <tr>
             <th>Questions</th>

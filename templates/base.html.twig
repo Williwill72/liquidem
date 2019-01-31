@@ -24,6 +24,23 @@
                 <div class="nav-link nav-header">
                     <a href="{{ path('question_list') }}">Liste</a>
                 </div>
+
+                {% if app.user == null %}
+                    <div class="nav-link nav-header">
+                        <a href="{{ path('app_login') }}">Connexion</a>
+                    </div>
+                    <div class="nav-link nav-header">
+                        <a href="{{ path('app_register') }}">Inscription</a>
+                    </div>
+                {% else %}
+                    <div class="nav-link nav-header">
+                        <a href="{{ path('question_create') }}">Proposer</a>
+                    </div>
+                    <div class="nav-link nav-header">
+                        <a href="{{ path('app_logout') }}">Déconnexion</a>
+                    </div>
+                {% endif %}
+
             </nav>
         </header>
 
