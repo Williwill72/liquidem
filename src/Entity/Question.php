@@ -68,12 +68,18 @@ class Question
      */
     private $messages;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Subject", inversedBy="questions")
+     */
+    private $subjects;
+
     public function __construct()
     {
         $this->setSupports(0);
         $this->setCreationDate(new \DateTime());
         $this->setStatus('debating');
         $this->messages = new ArrayCollection();
+        $this->subjects = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -168,6 +174,32 @@ class Question
                 $message->setQuestion(null);
             }
         }
+        return $this;
+    }
+
+    /**
+     * @return Collection|Subject[]
+     */
+    public function getSubjects(): Collection
+    {
+        return $this->subjects;
+    }
+
+    public function addSubject(Subject $subject): self
+    {
+        if (!$this->subjects->contains($subject)) {
+            $this->subjects[] = $subject;
+        }
+
+        return $this;
+    }
+
+    public function removeSubject(Subject $subject): self
+    {
+        if ($this->subjects->contains($subject)) {
+            $this->subjects->removeElement($subject);
+        }
+
         return $this;
     }
 }

@@ -72,7 +72,7 @@ class QuestionController extends AbstractController
         //$question = $questionRepository->findOneById($id);
         $question = $questionRepository->find($id);
         $messages = $messageRepository->findBy(
-            ['isPublished' => true],
+            ['isPublished' => true, 'question' => $question],
             ['creationDate' => 'DESC']
         );
         if(!$question){
@@ -126,14 +126,16 @@ class QuestionController extends AbstractController
         //Ce repository nous permet de faire des SELECT
         $questionRepository = $this->getDoctrine()->getRepository(Question::class);
 
-        //équivalent à SELECT * FROM questions WHERE status = 'debating'
+        $questions= $questionRepository->findListQuestions();
+
+        /*//équivalent à SELECT * FROM questions WHERE status = 'debating'
         //ORDER BY supports DESC LIMIT 1000
         $questions = $questionRepository->findBy(
             ['status' => 'debating'], //WHERE
             ['supports' => 'DESC'],    //ORDER BY
             1000,                      //limit
             0                          //offset
-        );
+        );*/
 
         //Fais un var dump puis un die
         //dd($questions);

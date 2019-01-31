@@ -6,6 +6,7 @@
     <table class="table table-striped">
         <tr>
             <th>Questions</th>
+            <th>Sujets</th>
             <th>Appuis</th>
             <th>Date</th>
             <th>Actions</th>
@@ -15,6 +16,7 @@
         {% for question in questions %}
             <tr>
                 <td>{{ question.title }}</td>
+                <td>{{ question.subjects|join(' | ') }}</td>
                 <td>{{ question.supports }}</td>
                 <td>{{ question.creationDate|date('d-m-Y H:i:s') }}</td>
                 <td><a class="btn btn-primary"

@@ -3,6 +3,9 @@
 {% block content %}
     <h1>{{ question.title }}</h1>
 
+    {# ça marche parequ'on a implémenté le toString() #}
+    <div>{{ question.subjects|join(' | ') }}</div>
+
     <div>{{ question.supports }} appuis</div>
 
     <div>
