@@ -73,6 +73,11 @@ class Question
      */
     private $subjects;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="question")
+     */
+    private $user;
+
     public function __construct()
     {
         $this->setSupports(0);
@@ -199,6 +204,18 @@ class Question
         if ($this->subjects->contains($subject)) {
             $this->subjects->removeElement($subject);
         }
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
 
         return $this;
     }

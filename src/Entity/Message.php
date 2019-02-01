@@ -53,6 +53,11 @@ class Message
      */
     private $question;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="message")
+     */
+    private $user;
+
     public function __construct()
     {
         $this->setClaps(0);
@@ -121,6 +126,18 @@ class Message
     public function setQuestion(?Question $question): self
     {
         $this->question = $question;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
 
         return $this;
     }

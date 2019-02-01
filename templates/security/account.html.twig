@@ -1,0 +1,10 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mon compte{% endblock %}
+
+{% block content %}
+    <h1>Mon compte</h1>
+    <p>Pseudo: {{ user.username }}</p>
+    <p>Email: {{ user.email }}</p>
+    <p>Numéro de sécurité sociale: {{ user.socialSecurityNumber }}</p>
+{% endblock %}

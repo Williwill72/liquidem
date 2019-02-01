@@ -3,6 +3,8 @@
 {% block content %}
     <h1>{{ question.title }}</h1>
 
+    <div>{{ question.user.username }}</div>
+
     {# ça marche parequ'on a implémenté le toString() #}
     <div>{{ question.subjects|join(' | ') }}</div>
 
@@ -32,7 +34,7 @@
 
     {% for message in messages %}
         <div class="message bg-primary border">
-            <p>envoyé par machin le {{ message.creationDate|date("d-m-Y à H:i:s") }} </p>
+            <p>envoyé par {{ message.user.username }} le {{ message.creationDate|date("d-m-Y à H:i:s") }} </p>
             <p>{{ message.content }}</p>
         </div>
     {% endfor %}

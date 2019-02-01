@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Message;
 use App\Entity\Question;
+use App\Entity\User;
 use App\Form\MessageType;
 use App\Form\QuestionType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -95,6 +96,8 @@ class QuestionController extends AbstractController
         $messageForm->handleRequest($request);
 
         if($messageForm->isSubmitted() && $messageForm->isValid()) {
+            //Limite l'accés aux utilisateurs connectés
+            $this->denyAccessUnlessGranted("ROLE_USER");
 
             //récupére l'entity manager de Doctrine
             $em = $this->getDoctrine()->getManager();
